@@ -183,6 +183,35 @@ table tr:nth-child(even) {
 tr td:last-child {
   cursor: pointer;
 }
+
+.emotionStar * {
+  /* background-color: #fff; */
+  width: 13.2rem;
+  height: 13.2rem;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.0rem;
+}
+
+.emptyState h2 {
+  font-weight: bold;
+  font-size: 4.0rem;
+
+  color: #4E5455;
+}
+
+.content {
+  height: 52rem;
+
+  border-bottom-left-radius: 15px;
+
+  border-bottom-right-radius: 15px;
+}
+
 /* 
 @media (max-width: 920px) {
   #app {
