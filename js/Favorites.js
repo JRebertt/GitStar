@@ -1,32 +1,54 @@
+import { GithubUser } from "./GithubUser.js";
+
 export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root);
     this.load()
+
   }
 
   load() {
-    this.entries =
-      [
-        {
-          userName: "maykbrito",
-          name: "Mayk Brito",
-          publicRepos: "76",
-          followers: '1000'
-        },
-        {
-          userName: "diego3g",
-          name: "Diego Fernandes",
-          publicRepos: "76",
-          followers: '1000'
-        }
-      ]
+
+    this.entries = JSON.parse(
+      localStorage.getItem('@github-favorites:')
+    ) || []
+  }
+
+  save() {
+    localStorage.setItem('@github-favorites:', JSON.stringify(this.entries))
+  }
+
+  async add(username) {
+    try {
+
+      const userExists = this.entries.find(entry => entry.login === username)
+
+      if (userExists) {
+        throw new Error('Usuario já cadastrado')
+      }
+
+      const user = await GithubUser.search(username)
+
+      console.log(user)
+
+      if (user.login === undefined) {
+        throw new Error('Usuario Não encontrado')
+      }
+      this.entries = [user, ...this.entries]
+      this.update()
+      this.save()
+    } catch (err) {
+      alert(err.message)
+    }
   }
 
   delete(user) {
     const filteredEntries = this.entries
-      .filter(entry => entry.userName !== user.userName)
+      .filter(entry => entry.login !== user.login)
 
-    console.log(filteredEntries)
+    this.entries = filteredEntries
+    this.update()
+    this.save()
   }
 }
 
@@ -37,6 +59,16 @@ export class FavoritesView extends Favorites {
     this.tbody = this.root.querySelector('table tbody')
 
     this.update()
+    this.onadd()
+
+  }
+
+  onadd() {
+    const addButton = this.root.querySelector('.ButtonSearch')
+    addButton.onclick = () => {
+      const { value } = this.root.querySelector('.search')
+      this.add(value)
+    }
   }
 
   update() {
@@ -46,16 +78,19 @@ export class FavoritesView extends Favorites {
       .forEach(user => {
         const row = this.createRow()
         row.querySelector('.users img')
-          .src = `https://github.com/${user.userName}.png`
+          .src = `https://github.com/${user.login}.png`
 
         row.querySelector('.name')
           .textContent = user.name
 
+        row.querySelector('a')
+          .href = `https://github.com/${user.login}`
+
         row.querySelector('.userName')
-          .textContent = user.userName
+          .textContent = user.login
 
         row.querySelector('.repositories')
-          .textContent = user.publicRepos
+          .textContent = user.public_repos
 
         row.querySelector('.followers')
           .textContent = user.followers
