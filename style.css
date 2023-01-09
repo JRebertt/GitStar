@@ -65,7 +65,6 @@ button {
 button:hover {
   background-color: #ffffff;
   color: var(--button-color);
-
 }
 
 #app {
@@ -118,7 +117,6 @@ table {
   padding: 2.4rem 4rem;
 
   border-collapse: collapse;
-
 }
 
 table * {
@@ -139,7 +137,7 @@ table th {
 
 table th:first-child {
   width: 50.4rem;
-  
+
   border-top-left-radius: 15px;
 }
 
@@ -172,7 +170,6 @@ table th:last-child {
 
 table td {
   padding: 3rem 4rem;
-
 }
 
 table tr:nth-child(odd) {
@@ -186,3 +183,29 @@ table tr:nth-child(even) {
 tr td:last-child {
   cursor: pointer;
 }
+/* 
+@media (max-width: 920px) {
+  #app {
+    max-width: 500px;
+  }
+
+  table {
+    width: 500px;
+  
+    padding: 2.4rem 4rem;
+  
+    border-collapse: collapse;
+  }
+  
+  
+  .search {
+    width: 24rem;
+    height: 4.8rem;
+  }
+
+  button {
+    width: 10rem;
+    height: 4.8rem;
+  }
+
+} */
